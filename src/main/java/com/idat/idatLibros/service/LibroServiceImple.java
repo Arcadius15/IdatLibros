@@ -1,6 +1,5 @@
 package com.idat.idatLibros.service;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -8,51 +7,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.idat.idatLibros.model.Autor;
-import com.idat.idatLibros.repository.AutorRepository;
+import com.idat.idatLibros.model.Libro;
+import com.idat.idatLibros.repository.LibroRepository;
 
 @Service
-public class AutorServiceImpl implements AutorService{
+public class LibroServiceImple implements LibroService{
 	
 	@Autowired
-	private AutorRepository autorRepository;
+	private LibroRepository libroRepository;
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Autor> listar() {
-		return autorRepository.findAll();
+	public List<Libro> listar() {
+		return libroRepository.findAll();
 	}
 
 	@Override
 	@Transactional
-	public Autor registrar(Autor autor) {
+	public Libro registrar(Libro lib) {
 		try {
-			autor = autorRepository.save(autor);
+			lib = libroRepository.save(lib);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new Autor();
+			return new Libro();
 		}
-		return autor;
+		return lib;
 	}
 
 	@Override
 	@Transactional
-	public Autor actualizar(Autor autor) {
+	public Libro actualizar(Libro lib) {
 		try {
-			autor = autorRepository.save(autor);
+			lib = libroRepository.save(lib);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new Autor();
+			return new Libro();
 		}
-		return autor;
+		return lib;
 	}
 
 	@Override
 	@Transactional
 	public boolean eliminar(int id) {
 		try {
-			autorRepository.deleteById(id);
+			libroRepository.deleteById(id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -60,20 +60,21 @@ public class AutorServiceImpl implements AutorService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Autor buscar(int id) {
-		Autor autor = null;
+	public Libro buscar(int id) {
+		Libro lib = null;
 		try {
-			Optional<Autor> opt = autorRepository.findById(id);
+			Optional<Libro> opt = libroRepository.findById(id);
 			if (opt.isPresent()) {
-				autor = opt.get();
-			}else {
-				throw new Exception("No existe.");
+				lib = opt.get();
+			}
+			else {
+				throw new Exception("No encontrado.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new Autor();
+			return new Libro();
 		}
-		return autor;
+		return lib;
 	}
 
 }

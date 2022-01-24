@@ -27,7 +27,6 @@ public class AutorController {
 	
 	@PostMapping(value = "/registrar")
 	public Autor registrar(@RequestBody Autor autor) {
-		System.out.println(autor.getNombre() + autor.getApellido());
 		Autor reg = autorService.registrar(autor);
 		return reg;
 	}
