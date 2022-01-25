@@ -23,11 +23,11 @@ public class Editorial implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column
+	@Column(nullable = false)
 	private String nombre;
-	@Column
+	@Column(nullable = false)
 	private String descripcion;
-	@Column
+	@Column(nullable = false)
 	private String contacto;
 	public int getId() {
 		return id;

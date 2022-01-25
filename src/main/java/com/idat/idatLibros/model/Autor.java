@@ -23,11 +23,11 @@ public class Autor implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column
+	@Column(nullable = false)
 	private String nombre;
-	@Column
+	@Column(nullable = false)
 	private String apellido;
-	@Column
+	@Column(nullable = false)
 	private int libros;
 	public int getId() {
 		return id;

@@ -25,19 +25,19 @@ public class Usuario implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column
+	@Column(nullable = false)
 	private String nombre;
-	@Column
+	@Column(nullable = false)
 	private String apellido;
-	@Column
+	@Column(nullable = false)
 	private String correo;
-	@Column
+	@Column(nullable = false)
 	private String clave;
-	@Column
+	@Column(nullable = false)
 	private String carrera;
-	@Column
+	@Column(nullable = false)
 	private int edad;
-	@Column
+	@Column(nullable = false)
 	private String tipo;
 	public int getId() {
 		return id;

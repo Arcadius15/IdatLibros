@@ -14,62 +14,60 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idat.idatLibros.model.Autor;
-import com.idat.idatLibros.service.AutorService;
+import com.idat.idatLibros.model.Libro;
+import com.idat.idatLibros.service.LibroService;
 
 @RestController
-@RequestMapping("/autor")
-public class AutorController {
-
+@RequestMapping("/libro")
+public class LibroController {
 	@Autowired
-	private AutorService autorService;
+	private LibroService libroService;
 	
 	@GetMapping(value = "/listar")
-	public ResponseEntity<List<Autor>>  listar(){
-		return new ResponseEntity<List<Autor>>(autorService.listar(),HttpStatus.OK) ;
+	public ResponseEntity<List<Libro>>  listar(){
+		return new ResponseEntity<List<Libro>>(libroService.listar(),HttpStatus.OK) ;
 	}
 	
 	@GetMapping(value = "/buscar/{id}")
-	public ResponseEntity<Autor>  buscar(@PathVariable(name = "id") int id){
+	public ResponseEntity<Libro>  buscar(@PathVariable(name = "id") int id){
 		try {
-			Autor autor = autorService.buscar(id);
-			return new ResponseEntity<Autor>(autor,HttpStatus.OK) ;
+			Libro lib = libroService.buscar(id);
+			return new ResponseEntity<Libro>(lib,HttpStatus.OK) ;
 		} catch (Exception e) {
-			return new ResponseEntity<Autor>(new Autor(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Libro>(new Libro(),HttpStatus.NOT_FOUND);
 		}
 	} 
 	
 	
 	
 	@PostMapping(value = "/registrar")
-	public ResponseEntity<Autor>  registrar(@RequestBody Autor autor)throws Exception {
+	public ResponseEntity<Libro>  registrar(@RequestBody Libro lib)throws Exception {
 		try {
-			Autor reg = autorService.registrar(autor);
-			return new ResponseEntity<Autor>(reg,HttpStatus.OK);
+			Libro reg = libroService.registrar(lib);
+			return new ResponseEntity<Libro>(reg,HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Autor>(new Autor(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Libro>(new Libro(),HttpStatus.NOT_FOUND);
 		}
 		
 	}
 	
 	@PutMapping(value = "/editar")
-	public ResponseEntity<Autor> editar(@RequestBody Autor autor){
+	public ResponseEntity<Libro> editar(@RequestBody Libro lib){
 		try {
-			Autor reg = autorService.actualizar(autor);
-			return new ResponseEntity<Autor>(reg,HttpStatus.OK);
+			Libro reg = libroService.actualizar(lib);
+			return new ResponseEntity<Libro>(reg,HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Autor>(new Autor(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Libro>(new Libro(),HttpStatus.NOT_FOUND);
 		}
 		
 	}
 	
 	@DeleteMapping(value = "/eliminar/{id}")
 	public ResponseEntity<Boolean> eliminar(@PathVariable(name = "id") int id){
-		boolean response = autorService.eliminar(id);
+		boolean response = libroService.eliminar(id);
 		if (response) {
 			return new ResponseEntity<Boolean>(response,HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(response,HttpStatus.NOT_FOUND);
 	}
-	
 }

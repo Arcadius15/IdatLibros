@@ -4,8 +4,11 @@ package com.idat.idatLibros.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.UnexpectedRollbackException;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.idat.idatLibros.model.Autor;
@@ -25,55 +28,31 @@ public class AutorServiceImpl implements AutorService{
 
 	@Override
 	@Transactional
-	public Autor registrar(Autor autor) {
-		try {
-			autor = autorRepository.save(autor);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Autor();
-		}
-		return autor;
+	public Autor registrar(Autor autor){
+		return autorRepository.save(autor);
 	}
 
 	@Override
 	@Transactional
 	public Autor actualizar(Autor autor) {
-		try {
-			autor = autorRepository.save(autor);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Autor();
-		}
-		return autor;
+		return autorRepository.save(autor);
 	}
 
 	@Override
 	@Transactional
 	public boolean eliminar(int id) {
-		try {
-			autorRepository.deleteById(id);
-		} catch (Exception e) {
-			return false;
+		Optional<Autor> opt = autorRepository.findById(id);
+		if (opt.isPresent()) {
+			autorRepository.delete(opt.get());
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Autor buscar(int id) {
-		Autor autor = null;
-		try {
-			Optional<Autor> opt = autorRepository.findById(id);
-			if (opt.isPresent()) {
-				autor = opt.get();
-			}else {
-				throw new Exception("No existe.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Autor();
-		}
-		return autor;
+		return autorRepository.findById(id).orElse(null);
 	}
 
 }

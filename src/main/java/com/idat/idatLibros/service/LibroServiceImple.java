@@ -25,56 +25,30 @@ public class LibroServiceImple implements LibroService{
 	@Override
 	@Transactional
 	public Libro registrar(Libro lib) {
-		try {
-			lib = libroRepository.save(lib);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Libro();
-		}
-		return lib;
+		return libroRepository.save(lib);
 	}
 
 	@Override
 	@Transactional
 	public Libro actualizar(Libro lib) {
-		try {
-			lib = libroRepository.save(lib);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Libro();
-		}
-		return lib;
+		return libroRepository.save(lib);
 	}
 
 	@Override
 	@Transactional
 	public boolean eliminar(int id) {
-		try {
-			libroRepository.deleteById(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+		Optional<Libro> opt = libroRepository.findById(id);
+		if (opt.isPresent()) {
+			libroRepository.delete(opt.get());
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Libro buscar(int id) {
-		Libro lib = null;
-		try {
-			Optional<Libro> opt = libroRepository.findById(id);
-			if (opt.isPresent()) {
-				lib = opt.get();
-			}
-			else {
-				throw new Exception("No encontrado.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Libro();
-		}
-		return lib;
+		return libroRepository.findById(id).orElse(null);
 	}
 
 }

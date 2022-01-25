@@ -25,11 +25,11 @@ public class Libro implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column
+	@Column(nullable = false)
 	private String nombre;
-	@Column
+	@Column(nullable = false)
 	private String descipcion;
-	@Column
+	@Column(nullable = false)
 	private int paginas;
 	@Column(columnDefinition = "bytea")
 	private byte[] pdf;

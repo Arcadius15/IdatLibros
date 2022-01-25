@@ -14,62 +14,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idat.idatLibros.model.Autor;
-import com.idat.idatLibros.service.AutorService;
+import com.idat.idatLibros.model.Editorial;
+import com.idat.idatLibros.service.EditorialService;
 
 @RestController
-@RequestMapping("/autor")
-public class AutorController {
-
+@RequestMapping("/editorial")
+public class EditorialController {
+	
 	@Autowired
-	private AutorService autorService;
+	private EditorialService editorialService;
 	
 	@GetMapping(value = "/listar")
-	public ResponseEntity<List<Autor>>  listar(){
-		return new ResponseEntity<List<Autor>>(autorService.listar(),HttpStatus.OK) ;
+	public ResponseEntity<List<Editorial>>  listar(){
+		return new ResponseEntity<List<Editorial>>(editorialService.listar(),HttpStatus.OK) ;
 	}
 	
 	@GetMapping(value = "/buscar/{id}")
-	public ResponseEntity<Autor>  buscar(@PathVariable(name = "id") int id){
+	public ResponseEntity<Editorial>  buscar(@PathVariable(name = "id") int id){
 		try {
-			Autor autor = autorService.buscar(id);
-			return new ResponseEntity<Autor>(autor,HttpStatus.OK) ;
+			Editorial edt = editorialService.buscar(id);
+			return new ResponseEntity<Editorial>(edt,HttpStatus.OK) ;
 		} catch (Exception e) {
-			return new ResponseEntity<Autor>(new Autor(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Editorial>(new Editorial(),HttpStatus.NOT_FOUND);
 		}
 	} 
 	
 	
 	
 	@PostMapping(value = "/registrar")
-	public ResponseEntity<Autor>  registrar(@RequestBody Autor autor)throws Exception {
+	public ResponseEntity<Editorial>  registrar(@RequestBody Editorial edt)throws Exception {
 		try {
-			Autor reg = autorService.registrar(autor);
-			return new ResponseEntity<Autor>(reg,HttpStatus.OK);
+			Editorial reg = editorialService.registrar(edt);
+			return new ResponseEntity<Editorial>(reg,HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Autor>(new Autor(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Editorial>(new Editorial(),HttpStatus.NOT_FOUND);
 		}
 		
 	}
 	
 	@PutMapping(value = "/editar")
-	public ResponseEntity<Autor> editar(@RequestBody Autor autor){
+	public ResponseEntity<Editorial> editar(@RequestBody Editorial edt){
 		try {
-			Autor reg = autorService.actualizar(autor);
-			return new ResponseEntity<Autor>(reg,HttpStatus.OK);
+			Editorial reg = editorialService.actualizar(edt);
+			return new ResponseEntity<Editorial>(reg,HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Autor>(new Autor(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Editorial>(new Editorial(),HttpStatus.NOT_FOUND);
 		}
 		
 	}
 	
 	@DeleteMapping(value = "/eliminar/{id}")
 	public ResponseEntity<Boolean> eliminar(@PathVariable(name = "id") int id){
-		boolean response = autorService.eliminar(id);
+		boolean response = editorialService.eliminar(id);
 		if (response) {
 			return new ResponseEntity<Boolean>(response,HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(response,HttpStatus.NOT_FOUND);
 	}
-	
+
 }

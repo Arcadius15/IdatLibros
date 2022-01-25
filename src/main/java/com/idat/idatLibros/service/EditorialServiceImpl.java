@@ -25,56 +25,31 @@ public class EditorialServiceImpl implements EditorialService{
 	@Override
 	@Transactional
 	public Editorial registrar(Editorial edit) {
-		try {
-			edit =editorialRepository.save(edit);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Editorial();
-		}
-		return edit;
+		return editorialRepository.save(edit);
 	}
 
 	@Override
 	@Transactional
 	public Editorial actualizar(Editorial edit) {
-		try {
-			edit = editorialRepository.save(edit);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Editorial();
-		}
-		return edit;
+		return editorialRepository.save(edit);
 	}
 
 	@Override
 	@Transactional
 	public boolean eliminar(int id) {
-		try {
+		Optional<Editorial> opt = editorialRepository.findById(id);
+		if (opt.isPresent()) {
 			editorialRepository.deleteById(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			return true;
 		}
-		return true;
+		return false;
+		
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Editorial buscar(int id) {
-		Editorial edit = null;
-		try {
-			Optional<Editorial> opt = editorialRepository.findById(id);
-			if (opt.isPresent()) {
-				edit = opt.get();
-			}
-			else {
-				throw new Exception("No encontrado.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			edit = new Editorial();
-		}
-		return edit;
+		return editorialRepository.findById(id).orElse(null);
 	}
 
 }

@@ -25,56 +25,30 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	@Transactional
 	public Usuario registrar(Usuario usr) {
-		try {
-			usr = usuarioRepository.save(usr);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Usuario();
-		}
-		return usr;
+		return usuarioRepository.save(usr);
 	}
 
 	@Override
 	@Transactional
 	public Usuario actualizar(Usuario usr) {
-		try {
-			usr = usuarioRepository.save(usr);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Usuario();
-		}
-		return usr;
+		return usuarioRepository.save(usr);
 	}
 
 	@Override
 	@Transactional
 	public boolean eliminar(int id) {
-		try {
-			usuarioRepository.deleteById(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+		Optional<Usuario> opt = usuarioRepository.findById(id);
+		if (opt.isPresent()) {
+			usuarioRepository.delete(opt.get());
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Usuario buscar(int id) {
-		Usuario usr = null;
-		try {
-			Optional<Usuario> opt = usuarioRepository.findById(id);
-			if (opt.isPresent()) {
-				usr = opt.get();
-			}
-			else {
-				throw new Exception("No Encontrado.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Usuario();
-		}
-		return usr;
+		return usuarioRepository.findById(id).orElse(null);
 	}
 
 }
