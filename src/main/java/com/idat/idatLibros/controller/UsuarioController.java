@@ -1,6 +1,7 @@
 package com.idat.idatLibros.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,13 +58,15 @@ public class UsuarioController {
 		}
 	}
 	
-	@PostMapping(value = "/registrarLibro")
+	@PutMapping(value = "/registrarLibro")
 	public ResponseEntity<Usuario> registrarLibro(@RequestParam("idUser") int idUser,@RequestParam("idLibro") int idLibro){
 		try {
 			Usuario usr = usuarioService.buscar(idUser);
 			Libro lib = libroService.buscar(idLibro);
-			usr.getLibros_user().add(lib);
-			usr = usuarioService.registrar(usr);
+			Set<Libro> user_libro = usr.getLibros_user();
+			user_libro.add(lib);
+			usr.setLibros_user(user_libro);
+			usr = usuarioService.actualizar(usr);
 			return new ResponseEntity<Usuario>(usr,HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Usuario>(new Usuario(),HttpStatus.BAD_REQUEST);

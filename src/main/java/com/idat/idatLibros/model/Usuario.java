@@ -13,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name = "usuario")
@@ -91,6 +93,7 @@ public class Usuario implements Serializable{
 	}
 	
 	@ManyToMany
+	@JsonIgnoreProperties(value = "usuario_libros")
 	@JoinTable(
 			  name = "usuario_libro", 
 			  joinColumns = @JoinColumn(name = "usuario_id"), 

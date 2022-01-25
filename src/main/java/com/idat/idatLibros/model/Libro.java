@@ -14,6 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "libro")
 public class Libro implements Serializable{
@@ -28,10 +31,10 @@ public class Libro implements Serializable{
 	@Column(nullable = false)
 	private String nombre;
 	@Column(nullable = false)
-	private String descipcion;
+	private String descripcion;
 	@Column(nullable = false)
 	private int paginas;
-	@Column(columnDefinition = "bytea")
+	@Column(columnDefinition = "bytea",nullable = true)
 	private byte[] pdf;
 	public int getId() {
 		return id;
@@ -44,12 +47,6 @@ public class Libro implements Serializable{
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	public String getDescipcion() {
-		return descipcion;
-	}
-	public void setDescipcion(String descipcion) {
-		this.descipcion = descipcion;
 	}
 	public int getPaginas() {
 		return paginas;
@@ -66,12 +63,25 @@ public class Libro implements Serializable{
 	public Libro() {
 	}
 	
+	
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
+
 	@ManyToOne
+	@JsonIgnoreProperties(value = "itemsLibros")
 	@JoinColumn(name = "editorial_id",nullable = false,
 		foreignKey = @ForeignKey(foreignKeyDefinition = "foreign key (editorial_id) references editorial(id)"))
 	private Editorial editorial;
 	
 	@ManyToOne
+	@JsonIgnoreProperties(value = "itemsLibro")
 	@JoinColumn(name = "autor_id",nullable = false,
 		foreignKey = @ForeignKey(foreignKeyDefinition = "foreign key (autor_id) references autor(id)"))
 	private Autor autor;
