@@ -30,7 +30,7 @@ public class Libro implements Serializable{
 	private int id;
 	@Column(nullable = false)
 	private String nombre;
-	@Column(nullable = false)
+	@Column(nullable = false,length = 1500)
 	private String descripcion;
 	@Column(nullable = false)
 	private int paginas;
