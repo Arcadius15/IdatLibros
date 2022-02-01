@@ -1,5 +1,6 @@
 package com.idat.idatLibros.controller;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.idat.idatLibros.Request.RegLibro;
 import com.idat.idatLibros.model.Libro;
 import com.idat.idatLibros.service.LibroService;
 
@@ -41,11 +43,15 @@ public class LibroController {
 	
 	
 	@PostMapping(value = "/registrar")
-	public ResponseEntity<Libro>  registrar(@RequestBody Libro lib)throws Exception {
+	public ResponseEntity<Libro>  registrar(@RequestBody RegLibro lib)throws Exception {
 		try {
-			Libro reg = libroService.registrar(lib);
+			Libro reg = lib.getLibro();
+			byte[] img = Base64.getMimeDecoder().decode(lib.getBase64().split(",")[1]);
+			reg.setImg(img);
+			reg = libroService.registrar(reg);
 			return new ResponseEntity<Libro>(reg,HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<Libro>(new Libro(),HttpStatus.NOT_FOUND);
 		}
 		

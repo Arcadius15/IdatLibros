@@ -10,5 +10,6 @@ public interface UsuarioService {
 	public Usuario actualizar(Usuario usr);
 	public boolean eliminar(int id);
 	public Usuario buscar(int id);
+	public Usuario buscarCorreo(String correo);
 
 }

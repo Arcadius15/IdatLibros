@@ -44,8 +44,31 @@ public class UsuarioController {
 		} catch (Exception e) {
 			return new ResponseEntity<Usuario>(new Usuario(),HttpStatus.NOT_FOUND);
 		}
-	} 
+	}
 	
+	@GetMapping(value = "/buscarCorreo")
+	public ResponseEntity<Boolean>  validarCorreo(@RequestParam("correo") String correo,@RequestParam("psw") String psw){
+		try {
+			Usuario usr = usuarioService.buscarCorreo(correo);
+			if (usr.getClave().equals(psw)) {
+				return new ResponseEntity<Boolean>(true,HttpStatus.OK) ;
+			}else {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(false,HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping(value = "/buscarUser")
+	public ResponseEntity<Usuario>  getUsuario(@RequestParam("correo") String correo,@RequestParam("psw") String psw){
+		try {
+			Usuario usr = usuarioService.buscarCorreo(correo);
+			return new ResponseEntity<Usuario>(usr,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Usuario>(new Usuario(),HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	
 	@PostMapping(value = "/registrar")

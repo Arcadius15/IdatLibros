@@ -35,6 +35,8 @@ public class Libro implements Serializable{
 	@Column(nullable = false)
 	private int paginas;
 	@Column(columnDefinition = "bytea",nullable = true)
+	private byte[] img;
+	@Column(columnDefinition = "bytea",nullable = true)
 	private byte[] pdf;
 	public int getId() {
 		return id;
@@ -63,8 +65,12 @@ public class Libro implements Serializable{
 	public Libro() {
 	}
 	
-	
-	
+	public byte[] getImg() {
+		return img;
+	}
+	public void setImg(byte[] img) {
+		this.img = img;
+	}
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -99,6 +105,7 @@ public class Libro implements Serializable{
 	}
 	
 	@ManyToMany(mappedBy = "libros_user")
+	@JsonIgnoreProperties(value = {"libros_user","clave","tipo"})
 	private Set<Usuario> usuario_libros;
 	public Set<Usuario> getUsuario_libros() {
 		return usuario_libros;
